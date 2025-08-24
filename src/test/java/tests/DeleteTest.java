@@ -15,6 +15,7 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static specs.RequestSpec.requestSpec;
 import static specs.ResponseSpec.responseSpec;
 
@@ -53,7 +54,7 @@ public class DeleteTest extends TestBase {
         isbn2.setIsbn("9781449331818");
         isbnList.add(isbn2);
         bookData.setCollectionOfIsbns(isbnList);
-        AddListOfBooksResponseModel bookResponse = step("Make add list of books request", () ->
+        AddListOfBooksResponseModel bookResponse = step("Make request to add list of books to profile", () ->
                 given(requestSpec)
                         .header("Authorization", "Bearer " + loginResponse.getToken())
                         .body(bookData)
@@ -85,7 +86,7 @@ public class DeleteTest extends TestBase {
             $("#userName-value").shouldHave(text(userData.getUserName()));
         });
 
-        step("Delete a book with UI", () -> {
+        step("Click delete icon with UI", () -> {
             $$(".mr-2").findBy(text("Learning JavaScript Design Patterns")).closest(".rt-tr").$("#delete-record-undefined").click();
         });
 
@@ -94,16 +95,22 @@ public class DeleteTest extends TestBase {
             Selenide.confirm();
         });
 
-        AddListOfBooksResponseModel bookResponse = step("Confirm removal with api", () ->
+        GetListOfBooksResponseModel userBookResponse = step("Make request to get a list of user's books", () ->
                 given(requestSpec)
                         .header("Authorization", "Bearer " + loginResponse.getToken())
-                        .body(bookData)
 
                         .when()
-                        .post("/BookStore/v1/Books")
+                        .get("/Account/v1/User/" + loginResponse.getUserId())
 
                         .then()
-                        .spec(responseSpec(201))
-                        .extract().as(AddListOfBooksResponseModel.class));
+                        .spec(responseSpec(200))
+                        .extract().as(GetListOfBooksResponseModel.class));
+
+        step("Confirm removal with api", () -> {
+            assertEquals(loginResponse.getUserId(), userBookResponse.getUserId());
+            assertEquals(userData.getUserName(), userBookResponse.getUsername());
+            assertEquals(bookResponse.getBooks().get(0).getIsbn(), userBookResponse.getBooks().get(0).getIsbn());
+            assertFalse(userBookResponse.getBooks().stream().anyMatch(books -> bookResponse.getBooks().get(1).getIsbn().equals(books.getIsbn())));
+        });
     }
 }
