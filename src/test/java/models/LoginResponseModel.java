@@ -1,9 +1,12 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class LoginResponseModel {
-    String created_date, expires, password, token, userId, username;
+    @JsonProperty("created_date")
+    String createdDate;
+    String expires, password, token, userId, username;
     Boolean isActive;
 }

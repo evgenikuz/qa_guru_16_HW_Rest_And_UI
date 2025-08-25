@@ -14,10 +14,8 @@ public class DemoQATests extends TestBase {
 
     @Test
     public void deleteOneOfItemsTest() {
-        LoginBodyModel userData = new LoginBodyModel();
+        LoginBodyModel userData = new LoginBodyModel(USERNAME, PASSWORD);
         LoginApi loginApi = new LoginApi();
-        userData.setUserName(USERNAME);
-        userData.setPassword(PASSWORD);
 
         BookListApi bookApi = new BookListApi();
         AddListOfBooksBodyModel bookData = new AddListOfBooksBodyModel();
@@ -25,7 +23,7 @@ public class DemoQATests extends TestBase {
         DeleteUI deleteUI = new DeleteUI();
 
         LoginResponseModel loginResponse = step("Make login request", () ->
-        loginApi.login(userData));
+                loginApi.login(userData));
 
         step("Check login successful", () -> {
             loginApi.loginCheck(userData, loginResponse);
@@ -33,14 +31,14 @@ public class DemoQATests extends TestBase {
 
         bookApi.addBookToISBNCollection(bookData, loginResponse);
         AddListOfBooksResponseModel bookResponse = step("Make request to add list of books to profile", () ->
-            bookApi.bookAdd(bookData, loginResponse));
+                bookApi.bookAdd(bookData, loginResponse));
 
         step("Check books are added", () -> {
             bookApi.booksCheck(bookResponse);
         });
 
         step("Delete a book with UI", () -> {
-            deleteUI.DeleteBookWithUI(loginResponse, userData);
+            deleteUI.DeleteBookWithUI(loginResponse, userData, bookResponse);
         });
 
         GetListOfBooksResponseModel userBookResponse = step("Make request to get a list of user's books", () ->

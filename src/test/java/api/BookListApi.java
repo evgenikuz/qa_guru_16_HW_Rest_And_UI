@@ -7,12 +7,11 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static specs.RequestSpec.requestSpec;
-import static specs.ResponseSpec.responseSpec;
+import static specs.BaseSpec.requestSpec;
+import static specs.BaseSpec.responseSpec;
 
 public class BookListApi {
     public void addBookToISBNCollection(AddListOfBooksBodyModel bookData, LoginResponseModel loginResponse) {
-//        AddListOfBooksBodyModel bookData = new AddListOfBooksBodyModel();
         bookData.setUserId(loginResponse.getUserId());
         List<CollectionOfIsbnsModel> isbnList = new ArrayList<>();
         CollectionOfIsbnsModel isbn1 = new CollectionOfIsbnsModel();
@@ -28,10 +27,8 @@ public class BookListApi {
         return given(requestSpec)
                 .header("Authorization", "Bearer " + loginResponse.getToken())
                 .body(bookData)
-
                 .when()
                 .post("/BookStore/v1/Books")
-
                 .then()
                 .spec(responseSpec(201))
                 .extract().as(AddListOfBooksResponseModel.class);

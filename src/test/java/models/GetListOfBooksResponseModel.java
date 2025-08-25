@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -10,7 +11,9 @@ public class GetListOfBooksResponseModel {
     List<Books> books;
     @Data
     public static class Books {
-        String isbn, title, subTitle, author, publish_date, publisher, description, website;
+        String isbn, title, subTitle, author, publisher, description, website;
+        @JsonProperty("publish_date")
+        String publishDate;
         Integer pages;
     }
 }

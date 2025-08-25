@@ -8,17 +8,15 @@ import models.LoginResponseModel;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static specs.RequestSpec.requestSpec;
-import static specs.ResponseSpec.responseSpec;
+import static specs.BaseSpec.requestSpec;
+import static specs.BaseSpec.responseSpec;
 
 public class LoginApi {
     public LoginResponseModel login(LoginBodyModel userData) {
         return given(requestSpec)
                 .body(userData)
-
                 .when()
                 .post("/Account/v1/Login")
-
                 .then()
                 .spec(responseSpec(200))
                 .extract().as(LoginResponseModel.class);
@@ -33,10 +31,8 @@ public class LoginApi {
     public GetListOfBooksResponseModel getUserBookResponse(LoginResponseModel loginResponse) {
         return given(requestSpec)
                 .header("Authorization", "Bearer " + loginResponse.getToken())
-
                 .when()
                 .get("/Account/v1/User/" + loginResponse.getUserId())
-
                 .then()
                 .spec(responseSpec(200))
                 .extract().as(GetListOfBooksResponseModel.class);
