@@ -1,21 +1,23 @@
 package tests;
 
-import apiTests.BookListApi;
-import apiTests.LoginApi;
+import api.BookListApi;
+import api.LoginApi;
 import models.*;
 import org.junit.jupiter.api.Test;
-import uiTests.DeleteUI;
+import ui.DeleteUI;
 
 import static io.qameta.allure.Allure.step;
+import static tests.TestData.PASSWORD;
+import static tests.TestData.USERNAME;
 
-public class DemoQATest extends TestBase {
+public class DemoQATests extends TestBase {
 
     @Test
     public void deleteOneOfItemsTest() {
         LoginBodyModel userData = new LoginBodyModel();
         LoginApi loginApi = new LoginApi();
-        userData.setUserName("kate_smith");
-        userData.setPassword("Katesmith9$");
+        userData.setUserName(USERNAME);
+        userData.setPassword(PASSWORD);
 
         BookListApi bookApi = new BookListApi();
         AddListOfBooksBodyModel bookData = new AddListOfBooksBodyModel();

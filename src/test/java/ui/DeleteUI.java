@@ -1,4 +1,4 @@
-package uiTests;
+package ui;
 
 import com.codeborne.selenide.Selenide;
 import models.LoginBodyModel;

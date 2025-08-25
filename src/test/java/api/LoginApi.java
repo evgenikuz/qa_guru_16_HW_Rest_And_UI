@@ -1,4 +1,4 @@
-package apiTests;
+package api;
 
 import models.AddListOfBooksResponseModel;
 import models.GetListOfBooksResponseModel;
