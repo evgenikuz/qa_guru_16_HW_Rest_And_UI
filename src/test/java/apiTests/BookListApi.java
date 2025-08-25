@@ -5,7 +5,6 @@ import models.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static specs.RequestSpec.requestSpec;
