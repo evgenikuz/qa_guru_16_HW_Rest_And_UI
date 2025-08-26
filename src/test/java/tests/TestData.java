@@ -1,6 +1,6 @@
 package tests;
 
 public class TestData {
-    public static final String USERNAME = "kate_smith";
-    public static final String PASSWORD = "Katesmith9$";
+    public static final String USERNAME = System.getProperty("username");
+    public static final String PASSWORD = System.getProperty("password");
 }

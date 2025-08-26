@@ -1,15 +1,12 @@
 package ui;
 
-import com.codeborne.selenide.Selenide;
 import models.AddListOfBooksResponseModel;
 import models.LoginBodyModel;
 import models.LoginResponseModel;
 import org.openqa.selenium.Cookie;
 import pages.ProfilePage;
 
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static io.qameta.allure.Allure.step;
 
